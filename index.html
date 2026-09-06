@@ -37,49 +37,49 @@ const FRAGRANCES = [
     id: 1, number: "01", name: "ARCTIC WAVE", 
     character: "COLD · FRESH · MINTY · MASCULINE", 
     shortCopy: "A crisp, cool presence with a clean minty character.", 
-    image: "/assets/fragrances/arctic-wave.webp",
+    image: "assets/fragrances/arctic-wave.webp",
     alt: "Cold mist and translucent frost over dark mineral stone in cool atmospheric light" 
   },
   { 
     id: 2, number: "02", name: "GOLDEN ECLIPSE", 
     character: "WARM · WOODY · SMOKY · LUXURIOUS", 
     shortCopy: "Warm sandalwood wrapped in shadow and smoke.", 
-    image: "/assets/fragrances/golden-eclipse.webp",
+    image: "assets/fragrances/golden-eclipse.webp",
     alt: "Rich dark wood bathed in warm golden light with soft, deep smoke" 
   },
   { 
     id: 3, number: "03", name: "TROPICAL BLAZE", 
     character: "EXOTIC · FRESH · WARM · UNIQUE", 
     shortCopy: "A bright tropical character grounded by warm wood.", 
-    image: "/assets/fragrances/tropical-blaze.webp",
+    image: "assets/fragrances/tropical-blaze.webp",
     alt: "Abstract mango-inspired warm organic forms with tropical foliage shadows and golden sunlight" 
   },
   { 
     id: 4, number: "04", name: "SPRING PETALS", 
     character: "FEMININE · FRESH · SWEET · FLORAL", 
     shortCopy: "Soft petals and sweet berries in an airy floral expression.", 
-    image: "/assets/fragrances/spring-petals.webp",
+    image: "assets/fragrances/spring-petals.webp",
     alt: "Delicate translucent petals floating in soft morning light" 
   },
   { 
     id: 5, number: "05", name: "GOLDEN CHARM", 
     character: "SWEET · MASCULINE · WARM · COMFORTING", 
     shortCopy: "Warm honey and hazelnut with a confident masculine character.", 
-    image: "/assets/fragrances/golden-charm.webp",
+    image: "assets/fragrances/golden-charm.webp",
     alt: "Warm tactile composition of amber, golden liquid light, and rich shadows" 
   },
   { 
     id: 6, number: "06", name: "ROUGE VANILLA", 
     character: "SWEET · WARM · ELEGANT · FRUITY", 
     shortCopy: "Warm vanilla softened by a dark fruity elegance.", 
-    image: "/assets/fragrances/rouge-vanilla.webp",
+    image: "assets/fragrances/rouge-vanilla.webp",
     alt: "Deep burgundy fabric folds with soft vanilla cream textures in cinematic low-key lighting" 
   },
   { 
     id: 7, number: "07", name: "TIMELESS V", 
     character: "CLASSIC · EXPENSIVE · LEGENDARY · POWDERY", 
     shortCopy: "A powdery classic with the presence of something timeless.", 
-    image: "/assets/fragrances/timeless-v.webp",
+    image: "assets/fragrances/timeless-v.webp",
     alt: "Aged ivory paper, soft marble, and powdery textures with quiet, timeless light" 
   }
 ];
@@ -196,7 +196,7 @@ const Hero = () => {
         <FadeIn delay={100} duration={1600} className="w-full flex justify-center mt-12 mb-24 md:mb-32">
           <div className="logo-slot w-48 md:w-56 lg:w-64 relative">
             <img 
-              src="/assets/logo.png" 
+              src="assets/logo.png" 
               alt="Lazarus: Ethereal Scents" 
               className="w-full h-auto opacity-90 object-contain" 
             />
@@ -484,7 +484,7 @@ const Footer = () => (
 );
 
 // --- MAIN APP ---
-export default function App() {
+function App() {
   useEffect(() => {
     const style = document.createElement('style');
     style.innerHTML = `
