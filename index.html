@@ -6,12 +6,9 @@
   <meta name="theme-color" content="#F5EFE5" />
   <title>Lazarus: Ethereal Scents</title>
 
-  <!-- React + JSX in the browser: no Node/npm required -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <!-- Tailwind CDN: no build step required -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
@@ -20,8 +17,16 @@
   <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
-// --- CONFIGURATION ---
-const WHATSAPP_NUMBER = "6281234567890";
+const WHATSAPP_NUMBER = "6289503968174";
+const WHATSAPP_API = "https://api.whatsapp.com/send";
+
+function openWhatsApp(productName = "") {
+  const message = productName
+    ? `Halo Lazarus, saya tertarik dengan parfum ${productName}. Saya ingin melakukan pemesanan.`
+    : `Halo Lazarus, saya ingin mengetahui lebih lanjut mengenai koleksi parfum Lazarus.`;
+  window.open(`${WHATSAPP_API}?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(message)}`, '_blank');
+}
+
 const BRAND = {
   colors: {
     ivory: "#F5EFE5",
@@ -31,319 +36,101 @@ const BRAND = {
   }
 };
 
-// --- DATA SYSTEM (Now with Dedicated Artworks) ---
 const FRAGRANCES = [
-  { 
-    id: 1, number: "01", name: "ARCTIC WAVE", 
-    character: "COLD · FRESH · MINTY · MASCULINE", 
-    shortCopy: "A crisp, cool presence with a clean minty character.", 
-    image: "assets/fragrances/arctic-wave.webp",
-    alt: "Cold mist and translucent frost over dark mineral stone in cool atmospheric light" 
-  },
-  { 
-    id: 2, number: "02", name: "GOLDEN ECLIPSE", 
-    character: "WARM · WOODY · SMOKY · LUXURIOUS", 
-    shortCopy: "Warm sandalwood wrapped in shadow and smoke.", 
-    image: "assets/fragrances/golden-eclipse.webp",
-    alt: "Rich dark wood bathed in warm golden light with soft, deep smoke" 
-  },
-  { 
-    id: 3, number: "03", name: "TROPICAL BLAZE", 
-    character: "EXOTIC · FRESH · WARM · UNIQUE", 
-    shortCopy: "A bright tropical character grounded by warm wood.", 
-    image: "assets/fragrances/tropical-blaze.webp",
-    alt: "Abstract mango-inspired warm organic forms with tropical foliage shadows and golden sunlight" 
-  },
-  { 
-    id: 4, number: "04", name: "SPRING PETALS", 
-    character: "FEMININE · FRESH · SWEET · FLORAL", 
-    shortCopy: "Soft petals and sweet berries in an airy floral expression.", 
-    image: "assets/fragrances/spring-petals.webp",
-    alt: "Delicate translucent petals floating in soft morning light" 
-  },
-  { 
-    id: 5, number: "05", name: "GOLDEN CHARM", 
-    character: "SWEET · MASCULINE · WARM · COMFORTING", 
-    shortCopy: "Warm honey and hazelnut with a confident masculine character.", 
-    image: "assets/fragrances/golden-charm.webp",
-    alt: "Warm tactile composition of amber, golden liquid light, and rich shadows" 
-  },
-  { 
-    id: 6, number: "06", name: "ROUGE VANILLA", 
-    character: "SWEET · WARM · ELEGANT · FRUITY", 
-    shortCopy: "Warm vanilla softened by a dark fruity elegance.", 
-    image: "assets/fragrances/rouge-vanilla.webp",
-    alt: "Deep burgundy fabric folds with soft vanilla cream textures in cinematic low-key lighting" 
-  },
-  { 
-    id: 7, number: "07", name: "TIMELESS V", 
-    character: "CLASSIC · EXPENSIVE · LEGENDARY · POWDERY", 
-    shortCopy: "A powdery classic with the presence of something timeless.", 
-    image: "assets/fragrances/timeless-v.webp",
-    alt: "Aged ivory paper, soft marble, and powdery textures with quiet, timeless light" 
-  }
+  { id: 1, number: "01", name: "ARCTIC WAVE", character: "COLD · FRESH · MINTY · MASCULINE", shortCopy: "A crisp, cool presence with a clean minty character.", image: "assets/fragrances/arctic-wave.webp", alt: "Cold mist and translucent frost over dark mineral stone in cool atmospheric light" },
+  { id: 2, number: "02", name: "GOLDEN ECLIPSE", character: "WARM · WOODY · SMOKY · LUXURIOUS", shortCopy: "Warm sandalwood wrapped in shadow and smoke.", image: "assets/fragrances/golden-eclipse.webp", alt: "Rich dark wood bathed in warm golden light with soft, deep smoke" },
+  { id: 3, number: "03", name: "TROPICAL BLAZE", character: "EXOTIC · FRESH · WARM · UNIQUE", shortCopy: "A bright tropical character grounded by warm wood.", image: "assets/fragrances/tropical-blaze.webp", alt: "Abstract mango-inspired warm organic forms with tropical foliage shadows and golden sunlight" },
+  { id: 4, number: "04", name: "SPRING PETALS", character: "FEMININE · FRESH · SWEET · FLORAL", shortCopy: "Soft petals and sweet berries in an airy floral expression.", image: "assets/fragrances/spring-petals.webp", alt: "Delicate translucent petals floating in soft morning light" },
+  { id: 5, number: "05", name: "GOLDEN CHARM", character: "SWEET · MASCULINE · WARM · COMFORTING", shortCopy: "Warm honey and hazelnut with a confident masculine character.", image: "assets/fragrances/golden-charm.webp", alt: "Warm tactile composition of amber, golden liquid light, and rich shadows" },
+  { id: 6, number: "06", name: "ROUGE VANILLA", character: "SWEET · WARM · ELEGANT · FRUITY", shortCopy: "Warm vanilla softened by a dark fruity elegance.", image: "assets/fragrances/rouge-vanilla.webp", alt: "Deep burgundy fabric folds with soft vanilla cream textures in cinematic low-key lighting" },
+  { id: 7, number: "07", name: "TIMELESS V", character: "CLASSIC · EXPENSIVE · LEGENDARY · POWDERY", shortCopy: "A powdery classic with the presence of something timeless.", image: "assets/fragrances/timeless-v.webp", alt: "Aged ivory paper, soft marble, and powdery textures with quiet, timeless light" }
 ];
 
-// --- HOOKS ---
 function useIntersectionObserver(options = {}) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
-
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsVisible(entry.isIntersecting);
-    }, { threshold: 0.1, ...options });
-
+    const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), { threshold: 0.1, ...options });
     const currentRef = ref.current;
     if (currentRef) observer.observe(currentRef);
     return () => { if (currentRef) observer.unobserve(currentRef); };
   }, [options]);
-
   return [ref, isVisible];
 }
 
 function useParallax(speed = 0.3) {
   const [offset, setOffset] = useState(0);
-  
   useEffect(() => {
     let rafId;
     let lastScrollY = window.scrollY;
-    
     const updateScroll = () => {
       if (lastScrollY !== window.scrollY) {
-        if (window.scrollY < window.innerHeight * 1.5) {
-          setOffset(window.scrollY * speed);
-        }
+        if (window.scrollY < window.innerHeight * 1.5) setOffset(window.scrollY * speed);
         lastScrollY = window.scrollY;
       }
       rafId = requestAnimationFrame(updateScroll);
     };
-    
     rafId = requestAnimationFrame(updateScroll);
     return () => cancelAnimationFrame(rafId);
   }, [speed]);
-
   return offset;
 }
 
-// --- UTILITY COMPONENTS ---
 const FadeIn = ({ children, delay = 0, className = "", direction = "up", duration = 1200, once = true }) => {
   const [hasRevealed, setHasRevealed] = useState(false);
   const [ref, isVisible] = useIntersectionObserver();
-  
-  useEffect(() => {
-    if (isVisible && once && !hasRevealed) setHasRevealed(true);
-  }, [isVisible, once, hasRevealed]);
-
+  useEffect(() => { if (isVisible && once && !hasRevealed) setHasRevealed(true); }, [isVisible, once, hasRevealed]);
   const active = once ? hasRevealed : isVisible;
-
-  // Max translation limited to 16px (translate-y-4) for subtle cinematic motion
-  const baseTranslate = {
-    up: "translate-y-4",
-    down: "-translate-y-4",
-    left: "translate-x-4",
-    right: "-translate-x-4",
-    none: "translate-y-0 translate-x-0"
-  }[direction];
-
-  return (
-    <div
-      ref={ref}
-      className={`transition-all ease-cinematic ${className} ${active ? 'opacity-100 translate-y-0 translate-x-0' : `opacity-0 ${baseTranslate}`}`}
-      style={{ 
-        transitionDuration: `${duration}ms`, 
-        transitionDelay: `${delay}ms`,
-        willChange: active ? 'auto' : 'opacity, transform'
-      }}
-    >
-      {children}
-    </div>
-  );
+  const baseTranslate = { up: "translate-y-4", down: "-translate-y-4", left: "translate-x-4", right: "-translate-x-4", none: "translate-y-0 translate-x-0" }[direction];
+  return <div ref={ref} className={`transition-all ease-cinematic ${className} ${active ? 'opacity-100 translate-y-0 translate-x-0' : `opacity-0 ${baseTranslate}`}`} style={{ transitionDuration: `${duration}ms`, transitionDelay: `${delay}ms`, willChange: active ? 'auto' : 'opacity, transform' }}>{children}</div>;
 };
-
-// --- MAIN SECTIONS ---
 
 const Hero = () => {
   const parallaxOffset = useParallax(0.12);
   const textParallaxOffset = useParallax(0.25);
-
-  const scrollToCollection = () => {
-    document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
-  };
-  
-  const handleOrder = () => {
-    const message = `Halo Lazarus, saya ingin mengetahui lebih lanjut mengenai koleksi parfum Lazarus.`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
-  };
-
+  const scrollToCollection = () => document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
+  const handleOrder = () => openWhatsApp();
   return (
     <section className="relative min-h-screen flex flex-col items-center py-12 px-6 overflow-hidden bg-[#F5EFE5]">
-      
-      {/* Background Atmosphere for Hero Only (As no product image exists here yet) */}
-      <div 
-        className="absolute inset-0 overflow-hidden pointer-events-none will-change-transform"
-        style={{ transform: `translateY(${parallaxOffset}px)` }}
-      >
+      <div className="absolute inset-0 overflow-hidden pointer-events-none will-change-transform" style={{ transform: `translateY(${parallaxOffset}px)` }}>
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZUZpbHRlciI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2VGaWx0ZXIpIiBvcGFjaXR5PSIwLjAzIi8+PC9zdmc+')] mix-blend-multiply opacity-40"></div>
         <div className="absolute top-1/4 -left-1/4 w-[150%] h-64 bg-gradient-to-r from-[#A48755]/10 to-transparent blur-[80px] animate-breathe mix-blend-multiply rounded-full"></div>
       </div>
-
-      <div 
-        className="z-10 flex flex-col items-center w-full max-w-2xl mx-auto h-full justify-center will-change-transform"
-        style={{ transform: `translateY(-${textParallaxOffset}px)` }}
-      >
-        {/* LOGO SPACE - DEDICATED CONTAINER */}
+      <div className="z-10 flex flex-col items-center w-full max-w-2xl mx-auto h-full justify-center will-change-transform" style={{ transform: `translateY(-${textParallaxOffset}px)` }}>
         <FadeIn delay={100} duration={1600} className="w-full flex justify-center mt-12 mb-24 md:mb-32">
-          <div className="logo-slot w-48 md:w-56 lg:w-64 relative">
-            <img 
-              src="assets/logo.png" 
-              alt="Lazarus: Ethereal Scents" 
-              className="w-full h-auto opacity-90 object-contain" 
-            />
+          <div className="logo-slot w-48 md:w-56 lg:w-64 relative flex items-center justify-center">
+            <img src="assets/logo.png" alt="Lazarus: Ethereal Scents" className="w-full h-auto opacity-90 object-contain mix-blend-multiply" />
           </div>
         </FadeIn>
-
         <div className="text-center w-full">
-          <h2 className="font-serif text-3xl md:text-6xl text-[#382A21] mb-8 leading-tight tracking-wide">
-            <FadeIn delay={250} duration={1400} className="block">A SCENT</FadeIn>
-            <FadeIn delay={250} duration={1400} className="block italic text-[#A48755]">WORTH REMEMBERING.</FadeIn>
-          </h2>
-          
-          <FadeIn delay={450} duration={1400}>
-            <p className="font-sans text-[10px] md:text-xs text-[#6B5545] tracking-[0.15em] mb-20 leading-loose font-light uppercase">
-              Seven fragrances.<br/>Seven characters.<br/>One lasting impression.
-            </p>
-          </FadeIn>
-          
-          <FadeIn delay={650} duration={1400}>
-            <div className="flex flex-col w-full max-w-[280px] md:max-w-md mx-auto gap-4">
-              <button 
-                onClick={scrollToCollection}
-                className="w-full py-5 bg-[#382A21] text-[#F5EFE5] font-sans text-[9px] md:text-[10px] tracking-[0.25em] uppercase transition-all duration-700 ease-cinematic hover:bg-[#A48755]"
-              >
-                Explore The Scents
-              </button>
-              <button 
-                onClick={handleOrder}
-                className="w-full py-5 border border-[#382A21]/20 text-[#382A21] font-sans text-[9px] md:text-[10px] tracking-[0.25em] uppercase transition-all duration-700 ease-cinematic hover:border-[#382A21] hover:bg-[#382A21] hover:text-[#F5EFE5]"
-              >
-                Order Via WhatsApp
-              </button>
-            </div>
-          </FadeIn>
+          <h2 className="font-serif text-3xl md:text-6xl text-[#382A21] mb-8 leading-tight tracking-wide"><FadeIn delay={250} duration={1400} className="block">A SCENT</FadeIn><FadeIn delay={250} duration={1400} className="block italic text-[#A48755]">WORTH REMEMBERING.</FadeIn></h2>
+          <FadeIn delay={450} duration={1400}><p className="font-sans text-[10px] md:text-xs text-[#6B5545] tracking-[0.15em] mb-20 leading-loose font-light uppercase">Seven fragrances.<br/>Seven characters.<br/>One lasting impression.</p></FadeIn>
+          <FadeIn delay={650} duration={1400}><div className="flex flex-col w-full max-w-[280px] md:max-w-md mx-auto gap-4"><button onClick={scrollToCollection} className="w-full py-5 bg-[#382A21] text-[#F5EFE5] font-sans text-[9px] md:text-[10px] tracking-[0.25em] uppercase transition-all duration-700 ease-cinematic hover:bg-[#A48755]">Explore The Scents</button><button onClick={handleOrder} className="w-full py-5 border border-[#382A21]/20 text-[#382A21] font-sans text-[9px] md:text-[10px] tracking-[0.25em] uppercase transition-all duration-700 ease-cinematic hover:border-[#382A21] hover:bg-[#382A21] hover:text-[#F5EFE5]">Order Via WhatsApp</button></div></FadeIn>
         </div>
       </div>
     </section>
   );
 };
 
-const BrandStatement = () => (
-  <section className="min-h-[80vh] flex items-center justify-center py-40 px-6 md:px-12 bg-[#F5EFE5] text-[#382A21] relative overflow-hidden">
-    <div className="max-w-4xl mx-auto text-center z-10">
-      <FadeIn delay={0} duration={1400}>
-        <span className="font-sans text-[9px] text-[#A48755] tracking-[0.4em] uppercase mb-16 block">The Philosophy</span>
-      </FadeIn>
-      <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl mb-12 leading-[1.3] tracking-wide text-[#382A21]/90">
-        <FadeIn delay={200} duration={1600} className="block">FRAGRANCE IS INVISIBLE.</FadeIn>
-        <FadeIn delay={300} duration={1600} className="block text-[#A48755] italic">MEMORY ISN'T.</FadeIn>
-      </h2>
-      <FadeIn delay={500} duration={1800}>
-        <p className="font-sans text-[11px] md:text-sm text-[#6B5545] tracking-[0.1em] leading-loose max-w-xl mx-auto font-light">
-          Lazarus: Ethereal Scents explores fragrance as character — something unseen, yet capable of becoming part of a memory.
-        </p>
-      </FadeIn>
-    </div>
-  </section>
-);
+const BrandStatement = () => (<section className="min-h-[80vh] flex items-center justify-center py-40 px-6 md:px-12 bg-[#F5EFE5] text-[#382A21] relative overflow-hidden"><div className="max-w-4xl mx-auto text-center z-10"><FadeIn delay={0} duration={1400}><span className="font-sans text-[9px] text-[#A48755] tracking-[0.4em] uppercase mb-16 block">The Philosophy</span></FadeIn><h2 className="font-serif text-3xl md:text-5xl lg:text-6xl mb-12 leading-[1.3] tracking-wide text-[#382A21]/90"><FadeIn delay={200} duration={1600} className="block">FRAGRANCE IS INVISIBLE.</FadeIn><FadeIn delay={300} duration={1600} className="block text-[#A48755] italic">MEMORY ISN'T.</FadeIn></h2><FadeIn delay={500} duration={1800}><p className="font-sans text-[11px] md:text-sm text-[#6B5545] tracking-[0.1em] leading-loose max-w-xl mx-auto font-light">Lazarus: Ethereal Scents explores fragrance as character — something unseen, yet capable of becoming part of a memory.</p></FadeIn></div></section>);
 
-const CollectionIntro = () => (
-  <section id="collection" className="py-32 px-6 text-center bg-[#F5EFE5]">
-    <FadeIn delay={0}>
-      <h3 className="font-sans text-[9px] md:text-[10px] text-[#A48755] tracking-[0.4em] uppercase mb-12">The Collection</h3>
-    </FadeIn>
-    <FadeIn delay={200}>
-      <h2 className="font-serif text-3xl md:text-5xl text-[#382A21] mb-4 tracking-wide">Seven expressions.</h2>
-    </FadeIn>
-    <FadeIn delay={400}>
-      <p className="font-serif text-3xl md:text-5xl text-[#A48755] italic tracking-wide">One Lazarus identity.</p>
-    </FadeIn>
-  </section>
-);
+const CollectionIntro = () => (<section id="collection" className="py-32 px-6 text-center bg-[#F5EFE5]"><FadeIn delay={0}><h3 className="font-sans text-[9px] md:text-[10px] text-[#A48755] tracking-[0.4em] uppercase mb-12">The Collection</h3></FadeIn><FadeIn delay={200}><h2 className="font-serif text-3xl md:text-5xl text-[#382A21] mb-4 tracking-wide">Seven expressions.</h2></FadeIn><FadeIn delay={400}><p className="font-serif text-3xl md:text-5xl text-[#A48755] italic tracking-wide">One Lazarus identity.</p></FadeIn></section>);
 
 const FragranceScene = ({ product }) => {
   const [ref, isVisible] = useIntersectionObserver({ threshold: 0.2 });
-  
-  const handleDiscover = () => {
-    document.getElementById('explorer').scrollIntoView({ behavior: 'smooth' });
-  };
-
+  const handleDiscover = () => document.getElementById('explorer').scrollIntoView({ behavior: 'smooth' });
   return (
-    <section ref={ref} className="relative min-h-[90vh] md:min-h-screen flex flex-col md:flex-row bg-[#F5EFE5]">
-      
-      {/* Dedicated Image Artwork Area */}
-      {/* The maskImage creates feathered vertical edges so images bleed into the page gracefully */}
-      <div 
-        className="relative w-full h-[55vh] md:h-screen md:w-[55%] lg:w-[60%] overflow-hidden flex-shrink-0 bg-[#F5EFE5]" 
-        style={{ 
-          maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)', 
-          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)' 
-        }}
-      >
-        <img 
-          src={product.image} 
-          alt={product.alt}
-          loading="lazy"
-          className={`w-full h-full object-cover transition-all duration-[2000ms] ease-cinematic ${
-            isVisible ? 'opacity-100 scale-100 animate-ultra-slow-zoom' : 'opacity-0 scale-105'
-          }`}
-          style={{ 
-            animationPlayState: isVisible ? 'running' : 'paused',
-            willChange: 'transform, opacity'
-          }}
-        />
+    <section ref={ref} className="relative flex flex-col md:flex-row bg-[#F5EFE5]">
+      <div className="relative w-full md:w-[58%] lg:w-[60%] aspect-[3/2] overflow-hidden flex-shrink-0 bg-[#F5EFE5] flex items-center justify-center">
+        <img src={product.image} alt={product.alt} loading="lazy" className={`w-full h-full object-contain transition-all duration-[2000ms] ease-cinematic ${isVisible ? 'opacity-100 scale-100 animate-ultra-slow-zoom' : 'opacity-0 scale-105'}`} style={{ animationPlayState: isVisible ? 'running' : 'paused', willChange: 'transform, opacity', maxWidth: '100%', maxHeight: '100%' }} />
       </div>
-
-      {/* Typography & Content Area (Exact choreographed timing) */}
-      <div className="relative w-full md:w-[45%] lg:w-[40%] flex flex-col justify-center px-8 py-16 md:px-16 lg:px-24 bg-transparent z-10">
-        <FadeIn delay={0} duration={1200}>
-          <span className="font-sans text-[9px] text-[#A48755] tracking-[0.4em] mb-8 block">
-            {product.number} / 07
-          </span>
-        </FadeIn>
-        
-        <FadeIn delay={100} duration={1200}>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#382A21] mb-6 tracking-wide uppercase">
-            {product.name}
-          </h2>
-        </FadeIn>
-
-        <FadeIn delay={200} duration={1200}>
-          <p className="font-sans text-[8px] md:text-[9px] text-[#6B5545] tracking-[0.35em] uppercase mb-10 font-medium leading-loose">
-            {product.character}
-          </p>
-        </FadeIn>
-        
-        <FadeIn delay={300} duration={1000}>
-          <div className="w-10 h-[1px] bg-[#382A21]/20 mb-10 origin-left"></div>
-        </FadeIn>
-        
-        <FadeIn delay={400} duration={1400}>
-          <p className="font-serif text-base md:text-lg text-[#382A21] leading-relaxed mb-16 font-light italic text-[#382A21]/80">
-            "{product.shortCopy}"
-          </p>
-        </FadeIn>
-        
-        <FadeIn delay={550} duration={1200}>
-          <button 
-            onClick={handleDiscover}
-            className="group flex items-center gap-4 text-[#382A21] font-sans text-[9px] tracking-[0.3em] uppercase transition-colors duration-500 hover:text-[#A48755]"
-          >
-            <span className="border-b border-[#382A21]/30 group-hover:border-[#A48755] pb-1 transition-all duration-500 ease-cinematic">
-              Discover Scent
-            </span>
-            <svg className="w-3 h-3 transform transition-transform duration-700 ease-cinematic group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-          </button>
-        </FadeIn>
+      <div className="relative w-full md:w-[42%] lg:w-[40%] flex flex-col justify-center px-8 py-14 md:px-16 lg:px-24 bg-transparent z-10">
+        <FadeIn delay={0} duration={1200}><span className="font-sans text-[9px] text-[#A48755] tracking-[0.4em] mb-8 block">{product.number} / 07</span></FadeIn>
+        <FadeIn delay={100} duration={1200}><h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#382A21] mb-6 tracking-wide uppercase">{product.name}</h2></FadeIn>
+        <FadeIn delay={200} duration={1200}><p className="font-sans text-[8px] md:text-[9px] text-[#6B5545] tracking-[0.35em] uppercase mb-10 font-medium leading-loose">{product.character}</p></FadeIn>
+        <FadeIn delay={300} duration={1000}><div className="w-10 h-[1px] bg-[#382A21]/20 mb-10 origin-left"></div></FadeIn>
+        <FadeIn delay={400} duration={1400}><p className="font-serif text-base md:text-lg text-[#382A21] leading-relaxed mb-16 font-light italic text-[#382A21]/80">"{product.shortCopy}"</p></FadeIn>
+        <FadeIn delay={550} duration={1200}><button onClick={handleDiscover} className="group flex items-center gap-4 text-[#382A21] font-sans text-[9px] tracking-[0.3em] uppercase transition-colors duration-500 hover:text-[#A48755]"><span className="border-b border-[#382A21]/30 group-hover:border-[#A48755] pb-1 transition-all duration-500 ease-cinematic">Discover Scent</span><svg className="w-3 h-3 transform transition-transform duration-700 ease-cinematic group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></button></FadeIn>
       </div>
     </section>
   );
@@ -351,216 +138,50 @@ const FragranceScene = ({ product }) => {
 
 const ScentExplorer = () => {
   const [selected, setSelected] = useState(null);
-
-  const handleOrder = (productName) => {
-    const message = productName 
-      ? `Halo Lazarus, saya tertarik dengan parfum ${productName}. Saya ingin melakukan pemesanan.`
-      : `Halo Lazarus, saya ingin mengetahui lebih lanjut mengenai koleksi parfum Lazarus.`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
-  };
-
+  const handleOrder = (productName) => openWhatsApp(productName);
   return (
     <section id="explorer" className="py-40 px-6 md:px-12 bg-[#F5EFE5] flex flex-col items-center min-h-screen justify-center">
-      <div className="text-center mb-24 w-full">
-        <FadeIn delay={0} duration={1200}>
-          <h2 className="font-serif text-3xl md:text-5xl text-[#382A21] mb-2 tracking-wide">
-            WHICH ONE
-          </h2>
-        </FadeIn>
-        <FadeIn delay={200} duration={1200}>
-          <h2 className="font-serif text-3xl md:text-5xl text-[#A48755] italic tracking-wide">
-            FEELS LIKE YOU?
-          </h2>
-        </FadeIn>
-      </div>
-
-      <div className="w-full max-w-2xl mx-auto flex flex-col gap-1">
-        {FRAGRANCES.map((fragrance, idx) => {
-          const isSelected = selected === fragrance.id;
-          return (
-            <FadeIn key={fragrance.id} delay={idx * 100} duration={1000}>
-              <div className="border-b border-[#382A21]/10 last:border-none">
-                <button
-                  onClick={() => setSelected(isSelected ? null : fragrance.id)}
-                  className={`w-full text-left py-8 md:py-10 transition-all duration-700 ease-cinematic flex flex-col md:flex-row items-start md:items-center justify-between group ${
-                    isSelected ? 'text-[#382A21] px-4 md:px-8 bg-[#382A21]/5' : 'text-[#382A21]/40 hover:text-[#382A21] hover:px-2 md:hover:px-4'
-                  }`}
-                >
-                  <span className={`font-serif text-xl md:text-3xl tracking-widest uppercase transition-all duration-700 ease-cinematic ${isSelected ? '-translate-y-1' : ''}`}>
-                    {fragrance.name}
-                  </span>
-                  <span className={`font-sans text-[8px] md:text-[9px] tracking-[0.3em] uppercase transition-all duration-500 ${isSelected ? 'opacity-100 text-[#A48755] mt-4 md:mt-0' : 'opacity-0 md:opacity-100 md:text-[#382A21]/20 group-hover:text-[#A48755] hidden md:block'}`}>
-                    {isSelected ? 'Selected' : 'Select'}
-                  </span>
-                </button>
-                
-                <div 
-                  className={`grid transition-[grid-template-rows,opacity,padding] duration-1000 ease-cinematic ${
-                    isSelected ? 'grid-rows-[1fr] opacity-100 py-10' : 'grid-rows-[0fr] opacity-0 py-0'
-                  }`}
-                >
-                  <div className="overflow-hidden flex flex-col items-start px-4 md:px-8">
-                    <p className="font-sans text-[9px] text-[#A48755] tracking-[0.3em] uppercase mb-4 transition-transform duration-1000 delay-100 translate-y-0">
-                      {fragrance.character}
-                    </p>
-                    <p className="font-serif text-base md:text-lg text-[#382A21] max-w-xl mb-10 font-light italic leading-relaxed transition-transform duration-1000 delay-200 translate-y-0">
-                      "{fragrance.shortCopy}"
-                    </p>
-                    <button 
-                       onClick={() => handleOrder(fragrance.name)}
-                       className="px-8 py-5 border border-[#382A21] text-[#382A21] font-sans text-[9px] md:text-[10px] tracking-[0.25em] uppercase transition-all duration-700 ease-cinematic hover:bg-[#382A21] hover:text-[#F5EFE5]"
-                    >
-                      Order via WhatsApp
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </FadeIn>
-          );
-        })}
-      </div>
+      <div className="text-center mb-24 w-full"><FadeIn delay={0} duration={1200}><h2 className="font-serif text-3xl md:text-5xl text-[#382A21] mb-2 tracking-wide">WHICH ONE</h2></FadeIn><FadeIn delay={200} duration={1200}><h2 className="font-serif text-3xl md:text-5xl text-[#A48755] italic tracking-wide">FEELS LIKE YOU?</h2></FadeIn></div>
+      <div className="w-full max-w-2xl mx-auto flex flex-col gap-1">{FRAGRANCES.map((fragrance, idx) => { const isSelected = selected === fragrance.id; return (<FadeIn key={fragrance.id} delay={idx * 100} duration={1000}><div className="border-b border-[#382A21]/10 last:border-none"><button onClick={() => setSelected(isSelected ? null : fragrance.id)} className={`w-full text-left py-8 md:py-10 transition-all duration-700 ease-cinematic flex flex-col md:flex-row items-start md:items-center justify-between group ${isSelected ? 'text-[#382A21] px-4 md:px-8 bg-[#382A21]/5' : 'text-[#382A21]/40 hover:text-[#382A21] hover:px-2 md:hover:px-4'}`}><span className={`font-serif text-xl md:text-3xl tracking-widest uppercase transition-all duration-700 ease-cinematic ${isSelected ? '-translate-y-1' : ''}`}>{fragrance.name}</span><span className={`font-sans text-[8px] md:text-[9px] tracking-[0.3em] uppercase transition-all duration-500 ${isSelected ? 'opacity-100 text-[#A48755] mt-4 md:mt-0' : 'opacity-0 md:opacity-100 md:text-[#382A21]/20 group-hover:text-[#A48755] hidden md:block'}`}>{isSelected ? 'Selected' : 'Select'}</span></button><div className={`grid transition-[grid-template-rows,opacity,padding] duration-1000 ease-cinematic ${isSelected ? 'grid-rows-[1fr] opacity-100 py-10' : 'grid-rows-[0fr] opacity-0 py-0'}`}><div className="overflow-hidden flex flex-col items-start px-4 md:px-8"><p className="font-sans text-[9px] text-[#A48755] tracking-[0.3em] uppercase mb-4">{fragrance.character}</p><p className="font-serif text-base md:text-lg text-[#382A21] max-w-xl mb-10 font-light italic leading-relaxed">"{fragrance.shortCopy}"</p><button onClick={() => handleOrder(fragrance.name)} className="px-8 py-5 border border-[#382A21] text-[#382A21] font-sans text-[9px] md:text-[10px] tracking-[0.25em] uppercase transition-all duration-700 ease-cinematic hover:bg-[#382A21] hover:text-[#F5EFE5]">Order via WhatsApp</button></div></div></div></FadeIn>); })}</div>
     </section>
   );
 };
 
 const WhatsAppCTA = () => {
-  const handleOrder = () => {
-    const message = `Halo Lazarus, saya ingin mengetahui lebih lanjut mengenai koleksi parfum Lazarus.`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
-  };
-
-  return (
-    <section className="py-40 px-6 md:px-12 bg-[#F5EFE5] text-[#382A21] flex flex-col items-center text-center relative overflow-hidden border-t border-[#382A21]/5">
-      <div className="z-10 w-full max-w-2xl">
-        <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl mb-8 leading-[1.2] tracking-wide text-[#382A21]">
-          <FadeIn delay={0} duration={1400} className="block">FIND YOUR SCENT.</FadeIn>
-          <FadeIn delay={300} duration={1400} className="block italic text-[#A48755]">MAKE IT YOURS.</FadeIn>
-        </h2>
-        <FadeIn delay={600} duration={1200}>
-          <p className="font-sans text-[10px] md:text-[11px] text-[#6B5545] tracking-[0.2em] mb-16 font-light uppercase">
-            Choose your Lazarus.<br className="md:hidden"/> We'll take care of the rest.
-          </p>
-        </FadeIn>
-        <FadeIn delay={900} duration={1400}>
-          <button 
-            onClick={handleOrder}
-            className="w-full md:w-auto px-12 py-5 bg-[#382A21] text-[#F5EFE5] font-sans text-[9px] md:text-[10px] tracking-[0.3em] uppercase transition-all duration-1000 ease-cinematic hover:bg-[#A48755] hover:text-[#F5EFE5]"
-          >
-            ORDER VIA WHATSAPP
-          </button>
-        </FadeIn>
-      </div>
-    </section>
-  );
+  const handleOrder = () => openWhatsApp();
+  return (<section className="py-40 px-6 md:px-12 bg-[#F5EFE5] text-[#382A21] flex flex-col items-center text-center relative overflow-hidden border-t border-[#382A21]/5"><div className="z-10 w-full max-w-2xl"><h2 className="font-serif text-3xl md:text-5xl lg:text-6xl mb-8 leading-[1.2] tracking-wide text-[#382A21]"><FadeIn delay={0} duration={1400} className="block">FIND YOUR SCENT.</FadeIn><FadeIn delay={300} duration={1400} className="block italic text-[#A48755]">MAKE IT YOURS.</FadeIn></h2><FadeIn delay={600} duration={1200}><p className="font-sans text-[10px] md:text-[11px] text-[#6B5545] tracking-[0.2em] mb-16 font-light uppercase">Choose your Lazarus.<br className="md:hidden"/> We'll take care of the rest.</p></FadeIn><FadeIn delay={900} duration={1400}><button onClick={handleOrder} className="w-full md:w-auto px-12 py-5 bg-[#382A21] text-[#F5EFE5] font-sans text-[9px] md:text-[10px] tracking-[0.3em] uppercase transition-all duration-1000 ease-cinematic hover:bg-[#A48755] hover:text-[#F5EFE5]">ORDER VIA WHATSAPP</button></FadeIn></div></section>);
 };
 
-const Footer = () => (
-  <footer className="py-32 px-6 md:px-12 bg-[#F5EFE5] flex flex-col items-center text-center">
-    <div className="w-full flex flex-col items-center">
-      <h2 className="font-serif text-2xl md:text-4xl text-[#382A21] mb-24 tracking-wide text-[#382A21]/90">
-        <FadeIn delay={0} duration={1600} className="block">SOME SCENTS FADE.</FadeIn>
-        <FadeIn delay={400} duration={1800} className="block italic text-[#A48755]">SOME REMAIN.</FadeIn>
-      </h2>
+const Footer = () => (<footer className="py-32 px-6 md:px-12 bg-[#F5EFE5] flex flex-col items-center text-center"><div className="w-full flex flex-col items-center"><h2 className="font-serif text-2xl md:text-4xl text-[#382A21] mb-24 tracking-wide text-[#382A21]/90"><FadeIn delay={0} duration={1600} className="block">SOME SCENTS FADE.</FadeIn><FadeIn delay={400} duration={1800} className="block italic text-[#A48755]">SOME REMAIN.</FadeIn></h2><FadeIn delay={800} duration={1400} className="w-full flex flex-col items-center"><div className="w-full max-w-[120px] h-[1px] bg-[#382A21]/10 mb-24"></div><div className="mb-16"><h1 className="font-serif text-xl md:text-2xl text-[#382A21] tracking-[0.4em]">LAZARUS</h1><p className="font-sans text-[8px] text-[#6B5545] tracking-[0.5em] mt-3 uppercase">ETHEREAL SCENTS</p></div><div className="flex gap-12 justify-center mb-6 font-sans text-[9px] tracking-[0.2em] text-[#6B5545] uppercase"><a href="#" className="hover:text-[#A48755] transition-colors duration-700">Instagram</a><a href={`${WHATSAPP_API}?phone=${WHATSAPP_NUMBER}`} target="_blank" rel="noreferrer" className="hover:text-[#A48755] transition-colors duration-700">WhatsApp</a></div><p className="font-sans text-[8px] text-[#6B5545]/60 tracking-[0.18em] mb-16">+62 895-0396-8174</p><p className="font-sans text-[8px] text-[#6B5545]/40 tracking-[0.3em] uppercase">© 2026 Lazarus: Ethereal Scents</p></FadeIn></div></footer>);
 
-      <FadeIn delay={800} duration={1400} className="w-full flex flex-col items-center">
-        <div className="w-full max-w-[120px] h-[1px] bg-[#382A21]/10 mb-24"></div>
-        
-        <div className="mb-16">
-          <h1 className="font-serif text-xl md:text-2xl text-[#382A21] tracking-[0.4em]">LAZARUS</h1>
-          <p className="font-sans text-[8px] text-[#6B5545] tracking-[0.5em] mt-3 uppercase">ETHEREAL SCENTS</p>
-        </div>
-        
-        <div className="flex gap-12 justify-center mb-16 font-sans text-[9px] tracking-[0.2em] text-[#6B5545] uppercase">
-          <a href="#" className="hover:text-[#A48755] transition-colors duration-700">Instagram</a>
-          <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noreferrer" className="hover:text-[#A48755] transition-colors duration-700">WhatsApp</a>
-        </div>
-        
-        <p className="font-sans text-[8px] text-[#6B5545]/40 tracking-[0.3em] uppercase">
-          © 2026 Lazarus: Ethereal Scents
-        </p>
-      </FadeIn>
-    </div>
-  </footer>
-);
-
-// --- MAIN APP ---
 function App() {
   useEffect(() => {
     const style = document.createElement('style');
     style.innerHTML = `
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
-      
       :root { --bg-color: ${BRAND.colors.ivory}; }
-      body {
-        background-color: var(--bg-color);
-        margin: 0; padding: 0;
-        overflow-x: hidden;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      
+      body { background-color: var(--bg-color); margin: 0; padding: 0; overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
       .font-serif { font-family: 'Playfair Display', serif; }
       .font-sans { font-family: 'Inter', sans-serif; }
-      
       html { scroll-behavior: smooth; }
       ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-track { background: var(--bg-color); }
       ::-webkit-scrollbar-thumb { background: #d3c9b8; }
-      
-      .ease-cinematic {
-        transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      /* Hero Atmosphere animations */
-      @keyframes breathe {
-        0%, 100% { transform: scale(1); opacity: 0.85; }
-        50% { transform: scale(1.02); opacity: 1; }
-      }
+      .ease-cinematic { transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+      @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.85; } 50% { transform: scale(1.02); opacity: 1; } }
       .animate-breathe { animation: breathe 16s infinite ease-in-out; }
-
-      /* Extremely subtle, continuous image scale for fragrance artworks */
-      @keyframes ultra-slow-zoom {
-        0% { transform: scale(1); }
-        100% { transform: scale(1.035); }
-      }
-      .animate-ultra-slow-zoom {
-        animation: ultra-slow-zoom 35s forwards ease-out;
-      }
-
-      /* Reduced Motion Accessibility */
-      @media (prefers-reduced-motion: reduce) {
-        *, ::before, ::after {
-          animation-play-state: paused !important;
-          transition-duration: 0.01ms !important;
-          scroll-behavior: auto !important;
-        }
-      }
+      @keyframes ultra-slow-zoom { 0% { transform: scale(1); } 100% { transform: scale(1.035); } }
+      .animate-ultra-slow-zoom { animation: ultra-slow-zoom 35s forwards ease-out; }
+      @media (prefers-reduced-motion: reduce) { *, ::before, ::after { animation-play-state: paused !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
     `;
     document.head.appendChild(style);
     return () => document.head.removeChild(style);
   }, []);
-
-  return (
-    <div className="w-full min-h-screen text-[#382A21] selection:bg-[#A48755]/20 selection:text-[#382A21]">
-      <Hero />
-      <BrandStatement />
-      <CollectionIntro />
-      
-      <div className="flex flex-col w-full bg-[#F5EFE5]">
-        {FRAGRANCES.map((fragrance) => (
-          <FragranceScene key={fragrance.id} product={fragrance} />
-        ))}
-      </div>
-
-      <ScentExplorer />
-      <WhatsAppCTA />
-      <Footer />
-    </div>
-  );
+  return <div className="w-full min-h-screen text-[#382A21] selection:bg-[#A48755]/20 selection:text-[#382A21]"><Hero /><BrandStatement /><CollectionIntro /><div className="flex flex-col w-full bg-[#F5EFE5]">{FRAGRANCES.map((fragrance) => <FragranceScene key={fragrance.id} product={fragrance} />)}</div><ScentExplorer /><WhatsAppCTA /><Footer /></div>;
 }
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
   </script>
 </body>
 </html>
