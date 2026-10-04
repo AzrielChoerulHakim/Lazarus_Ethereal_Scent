@@ -171,9 +171,89 @@
       .preview-panel { display: none; }
       .product-image-mobile { display: block; max-width: 420px; margin: 0 auto 1.5rem; }
     }
+    @media (min-width: 1081px) {
+      .section#collection { padding-top: 1.6rem; }
+      .section-head { margin-bottom: 1.35rem; }
+      .collection-layout { grid-template-columns: minmax(248px,.74fr) minmax(0,1.26fr); gap: 1.2rem; }
+      .preview-panel { top: 5.35rem; padding: 1rem; }
+      .preview-image-wrap { padding: .55rem; }
+      .preview-layer { inset: .55rem; }
+      .preview-layer img { object-position: 50% 52%; }
+      .preview-meta { padding: 1rem .15rem .1rem; }
+      .preview-meta h3 { margin: .6rem 0 .5rem; font-size: clamp(1.6rem,2.2vw,2.25rem); }
+      .preview-copy { margin-top: .75rem; min-height: 0; line-height: 1.65; }
+      .note-groups { gap: .7rem; margin-top: 1rem; }
+      .note-box { padding: .8rem .85rem; }
+      .note-box strong { font-size: .9rem; line-height: 1.45; }
+      .product-card { padding: 1.15rem 1.2rem; border-radius: 24px; }
+      .product-header { margin-bottom: .8rem; }
+      .product-title { font-size: clamp(1.6rem,1.9vw,2.05rem); }
+      .product-scent { font-size: .72rem; line-height: 1.5; }
+      .product-body { gap: .85rem; }
+      .product-body p { font-size: .96rem; line-height: 1.6; }
+      .notes-inline { gap: .5rem; }
+      .tag { padding: .54rem .74rem; font-size: .72rem; }
+      .product-footer { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: .8rem; }
+      .product-actions,.social-links { gap: .55rem; }
+      .social-link,.stat-chip { padding: .74rem .88rem; font-size: .74rem; }
+      .btn { min-height: 44px; padding: .82rem 1.08rem; font-size: .75rem; }
+    }
+    @media (min-width: 1081px) and (max-height: 860px) {
+      .hero { padding-bottom: 2.2rem; }
+      .section#collection { padding-top: 1.15rem; }
+      .section-head { margin-bottom: 1rem; }
+      .section-head h2 { font-size: clamp(1.8rem,3vw,2.6rem); }
+      .section-head p { line-height: 1.65; max-width: 30rem; }
+      .collection-layout { grid-template-columns: minmax(228px,.68fr) minmax(0,1.32fr); gap: .95rem; }
+      .preview-panel { top: 4.95rem; padding: .85rem; }
+      .preview-image-wrap { max-height: min(39vh, 350px); padding: .45rem; }
+      .preview-layer { inset: .45rem; }
+      .preview-meta { padding-top: .8rem; }
+      .preview-number { font-size: .68rem; gap: .45rem; letter-spacing: .28em; }
+      .preview-number::after { width: 30px; }
+      .preview-meta h3 { margin: .45rem 0 .35rem; font-size: clamp(1.38rem,1.7vw,1.92rem); }
+      .profile-line { font-size: .68rem; letter-spacing: .18em; }
+      .preview-copy { margin-top: .6rem; font-size: .91rem; line-height: 1.48; }
+      .note-groups { gap: .55rem; margin-top: .8rem; }
+      .note-box { padding: .68rem .72rem; border-radius: 14px; }
+      .note-box span { margin-bottom: .28rem; font-size: .64rem; letter-spacing: .21em; }
+      .note-box strong { font-size: .85rem; line-height: 1.3; }
+      .product-card { padding: 1rem 1.05rem; border-radius: 22px; }
+      .product-header { margin-bottom: .65rem; }
+      .product-number { font-size: .68rem; letter-spacing: .24em; }
+      .product-title { font-size: clamp(1.46rem,1.6vw,1.85rem); }
+      .product-scent { margin-top: .1rem; font-size: .68rem; letter-spacing: .17em; line-height: 1.42; }
+      .product-body { gap: .72rem; }
+      .product-body p { font-size: .92rem; line-height: 1.48; }
+      .notes-inline { gap: .42rem; }
+      .tag { padding: .48rem .68rem; font-size: .68rem; }
+      .note-groups { grid-template-columns: repeat(3,minmax(0,1fr)); }
+      .product-footer { margin-top: .15rem; gap: .65rem; }
+      .social-links { margin-top: .55rem !important; }
+      .social-link { padding: .62rem .76rem; font-size: .7rem; }
+      .product-actions { gap: .45rem; justify-content: flex-end; }
+      .btn { min-height: 40px; padding: .72rem .96rem; font-size: .72rem; letter-spacing: .14em; }
+    }
     @media (max-width: 720px) {
       .hero-card { transform: none; margin-left: .5rem; margin-right: .5rem; }
       .btn { white-space: normal; text-align: center; }
+    }
+
+    /* Keep the entire sticky photograph and caption inside the desktop viewport. */
+    @media (min-width: 1081px) {
+      .hero-orb { max-width: 100%; }
+      .collection-layout { grid-template-columns: clamp(280px,28vw,360px) minmax(0,1fr); }
+      .preview-panel {
+        --preview-photo-height: min(42svh,440px);
+        top: calc(var(--header-height,84px) + 12px);
+      }
+      .preview-image-wrap {
+        width: min(100%,calc(var(--preview-photo-height) * .72));
+        height: var(--preview-photo-height);
+        max-height: none;
+        margin-inline: auto;
+      }
+      .product-card { scroll-margin-top: calc(var(--header-height,84px) + 12px); }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -235,7 +315,7 @@
         <div class="collection-layout">
           <aside class="preview-panel" aria-label="Active fragrance preview">
             <div class="preview-image-wrap"><picture id="previewPicture" class="preview-layer" data-product-id="1">
-              <source type="image/webp" srcset="assets/products/artic-wave-600.webp 600w, assets/products/artic-wave.webp 1143w" sizes="(min-width: 1350px) 510px, calc(46vw - 93px)">
+              <source type="image/webp" srcset="assets/products/artic-wave.webp 1143w" sizes="320px">
               <img id="previewImage" class="preview-image" loading="lazy" src="assets/products/artic-wave.jpg" alt="Artic Wave perfume bottle on blue fabric with mint leaves and water droplets." width="1143" height="2048" decoding="async">
             </picture></div>
             <div class="preview-meta">
@@ -315,334 +395,19 @@
     // Product order, descriptions, scent notes and store links follow the existing index.html.
     // Images are the user's nine selected JPGs, not the earlier generated photographs.
     const FRAGRANCES = [
-      {
-            "id": 1,
-            "number": "01",
-            "name": "Artic Wave",
-            "slug": "artic-wave",
-            "scentProfile": "Cold · Fresh · Minty · Masculine",
-            "shortCopy": "A crisp, cool presence with a clean minty character.",
-            "description": "Cool mint and fresh green apple create an energizing profile with a clean, masculine feel. It is refreshing, sharp, and easy to wear throughout the day.",
-            "image": "assets/products/artic-wave.jpg",
-            "webp": "assets/products/artic-wave.webp",
-            "srcset": "assets/products/artic-wave-600.webp 600w, assets/products/artic-wave.webp 1143w",
-            "width": 1143,
-            "height": 2048,
-            "alt": "Artic Wave perfume bottle on blue fabric with mint leaves and water droplets.",
-            "accent": "rgba(164, 193, 196, 0.22)",
-            "accentStrong": "#5d8d90",
-            "tags": [
-                  "Fresh Daily Wear",
-                  "Cooling Impression",
-                  "Minty Character"
-            ],
-            "notes": [
-                  {
-                        "label": "Profile",
-                        "value": "Mint · Green Apple · Ice"
-                  },
-                  {
-                        "label": "Best For",
-                        "value": "Daytime / Active"
-                  },
-                  {
-                        "label": "Mood",
-                        "value": "Clean, cool, confident"
-                  }
-            ]
-      },
-      {
-            "id": 2,
-            "number": "02",
-            "name": "Golden Eclipse",
-            "slug": "golden-eclipse",
-            "scentProfile": "Warm · Woody · Smoky · Luxurious",
-            "shortCopy": "Warm sandalwood wrapped in shadow and smoke.",
-            "description": "A darker, richer scent character built around warm woods, cardamom, and a smoky luxurious mood. It feels composed, elegant, and quietly intense.",
-            "image": "assets/products/golden-eclipse.jpg",
-            "webp": "assets/products/golden-eclipse.webp",
-            "srcset": "assets/products/golden-eclipse-600.webp 600w, assets/products/golden-eclipse.webp 1143w",
-            "width": 1143,
-            "height": 2048,
-            "alt": "Golden Eclipse perfume bottle on dark brown fabric beside wood and cardamom.",
-            "accent": "rgba(164, 135, 85, 0.22)",
-            "accentStrong": "#a48755",
-            "tags": [
-                  "Evening Wear",
-                  "Woody Depth",
-                  "Smoky Warmth"
-            ],
-            "notes": [
-                  {
-                        "label": "Profile",
-                        "value": "Woody · Smoky · Amber"
-                  },
-                  {
-                        "label": "Best For",
-                        "value": "Night / Formal"
-                  },
-                  {
-                        "label": "Mood",
-                        "value": "Refined, deep, magnetic"
-                  }
-            ]
-      },
-      {
-            "id": 3,
-            "number": "03",
-            "name": "Tropical Blaze",
-            "slug": "tropical-blaze",
-            "scentProfile": "Exotic · Fresh · Warm · Unique",
-            "shortCopy": "A bright tropical character grounded by warm wood.",
-            "description": "Sunlit mango brightness meets citrus freshness and soft floral warmth. Tropical Blaze feels playful, vibrant, and lively without losing its smooth finish.",
-            "image": "assets/products/tropical-blaze.jpg",
-            "webp": "assets/products/tropical-blaze.webp",
-            "srcset": "assets/products/tropical-blaze-600.webp 600w, assets/products/tropical-blaze.webp 1143w",
-            "width": 1143,
-            "height": 2048,
-            "alt": "Tropical Blaze perfume bottle on orange fabric with a lime half and pink peppercorns.",
-            "accent": "rgba(224, 177, 53, 0.22)",
-            "accentStrong": "#ca9d28",
-            "tags": [
-                  "Tropical Mood",
-                  "Citrus Lift",
-                  "Warm Finish"
-            ],
-            "notes": [
-                  {
-                        "label": "Profile",
-                        "value": "Mango · Citrus · Floral"
-                  },
-                  {
-                        "label": "Best For",
-                        "value": "Day / Vacation"
-                  },
-                  {
-                        "label": "Mood",
-                        "value": "Bright, fun, uplifting"
-                  }
-            ]
-      },
-      {
-            "id": 4,
-            "number": "04",
-            "name": "Spring Petals",
-            "slug": "spring-petals",
-            "scentProfile": "Feminine · Fresh · Sweet · Floral",
-            "shortCopy": "Soft petals and sweet berries in an airy floral expression.",
-            "description": "A delicate floral impression softened by juicy berries and a light romantic sweetness. Spring Petals feels cheerful, soft, and beautifully feminine.",
-            "image": "assets/products/spring-petals.jpg",
-            "webp": "assets/products/spring-petals.webp",
-            "srcset": "assets/products/spring-petals-600.webp 600w, assets/products/spring-petals.webp 1143w",
-            "width": 1143,
-            "height": 2048,
-            "alt": "Spring Petals perfume bottle on blush pink fabric with a strawberry and a violet flower.",
-            "accent": "rgba(220, 161, 194, 0.24)",
-            "accentStrong": "#bf7eb0",
-            "tags": [
-                  "Floral Sweetness",
-                  "Soft Feminine",
-                  "Berry Touch"
-            ],
-            "notes": [
-                  {
-                        "label": "Profile",
-                        "value": "Floral · Berry · Soft Sweet"
-                  },
-                  {
-                        "label": "Best For",
-                        "value": "Casual / Brunch"
-                  },
-                  {
-                        "label": "Mood",
-                        "value": "Tender, airy, charming"
-                  }
-            ]
-      },
-      {
-            "id": 5,
-            "number": "05",
-            "name": "Golden Charm",
-            "slug": "golden-charm",
-            "scentProfile": "Sweet · Masculine · Warm · Comforting",
-            "shortCopy": "Warm honey and hazelnut with a confident masculine character.",
-            "description": "Golden Charm blends nutty warmth and honeyed comfort with woody depth. It feels cozy, attractive, and easy to remember.",
-            "image": "assets/products/golden-charm.jpg",
-            "webp": "assets/products/golden-charm.webp",
-            "srcset": "assets/products/golden-charm-600.webp 600w, assets/products/golden-charm.webp 1143w",
-            "width": 1143,
-            "height": 2048,
-            "alt": "Golden Charm perfume bottle on golden fabric with a hazelnut and a dried leaf.",
-            "accent": "rgba(165, 114, 55, 0.23)",
-            "accentStrong": "#9f6436",
-            "tags": [
-                  "Warm Comfort",
-                  "Nutty Sweetness",
-                  "Masculine Softness"
-            ],
-            "notes": [
-                  {
-                        "label": "Profile",
-                        "value": "Hazelnut · Honey · Warm Wood"
-                  },
-                  {
-                        "label": "Best For",
-                        "value": "Daily / Cozy"
-                  },
-                  {
-                        "label": "Mood",
-                        "value": "Warm, comforting, charming"
-                  }
-            ]
-      },
-      {
-            "id": 6,
-            "number": "06",
-            "name": "Rouge Vanilla",
-            "slug": "rouge-vanilla",
-            "scentProfile": "Sweet · Warm · Elegant · Fruity",
-            "shortCopy": "Warm vanilla softened by a dark fruity elegance.",
-            "description": "Rouge Vanilla layers soft pear, red berries, and vanilla into a smooth fruity warmth. The result feels elegant, sweet, and softly sensual.",
-            "image": "assets/products/rouge-vanilla.jpg",
-            "webp": "assets/products/rouge-vanilla.webp",
-            "srcset": "assets/products/rouge-vanilla-600.webp 600w, assets/products/rouge-vanilla.webp 1143w",
-            "width": 1143,
-            "height": 2048,
-            "alt": "Rouge Vanilla perfume bottle on burgundy fabric with a vanilla pod and a raspberry.",
-            "accent": "rgba(171, 111, 102, 0.24)",
-            "accentStrong": "#af6a63",
-            "tags": [
-                  "Vanilla Base",
-                  "Fruity Warmth",
-                  "Elegant Sweetness"
-            ],
-            "notes": [
-                  {
-                        "label": "Profile",
-                        "value": "Pear · Vanilla · Red Fruits"
-                  },
-                  {
-                        "label": "Best For",
-                        "value": "Day to Night"
-                  },
-                  {
-                        "label": "Mood",
-                        "value": "Elegant, warm, inviting"
-                  }
-            ]
-      },
-      {
-            "id": 7,
-            "number": "07",
-            "name": "Timeless V",
-            "slug": "timeless-v",
-            "scentProfile": "Classic · Expensive · Legendary · Powdery",
-            "shortCopy": "A powdery classic with the presence of something timeless.",
-            "description": "A refined floral-citrus composition with an airy, powdery refinement. Timeless V feels polished, graceful, and unmistakably classic.",
-            "image": "assets/products/timeless-v.jpg",
-            "webp": "assets/products/timeless-v.webp",
-            "srcset": "assets/products/timeless-v-600.webp 600w, assets/products/timeless-v.webp 1143w",
-            "width": 1143,
-            "height": 2048,
-            "alt": "Timeless V perfume bottle on ivory fabric with a small white flower.",
-            "accent": "rgba(212, 201, 194, 0.22)",
-            "accentStrong": "#b9a791",
-            "tags": [
-                  "Classic Signature",
-                  "Powdery Clean",
-                  "Soft Luxury"
-            ],
-            "notes": [
-                  {
-                        "label": "Profile",
-                        "value": "White Floral · Citrus · Powdery"
-                  },
-                  {
-                        "label": "Best For",
-                        "value": "Daily / Polished"
-                  },
-                  {
-                        "label": "Mood",
-                        "value": "Timeless, graceful, chic"
-                  }
-            ]
-      },
-      {
-            "id": 8,
-            "number": "08",
-            "name": "Midnight Illusion",
-            "slug": "midnight-illusion",
-            "scentProfile": "Sweet · Fruity Pear · Fresh Spicy",
-            "shortCopy": "Asik, santai, dan misterius — perfect for nights out and after-dark moments.",
-            "description": "Perpaduan wangi buah pear yang manis segar dengan sentuhan mint dan aroma rempah hangat yang maskulin. Karakter wanginya asik, santai, dan misterius. Pas banget buat dipakai nongkrong atau jalan-jalan malam.",
-            "image": "assets/products/midnight-illusion.jpg",
-            "webp": "assets/products/midnight-illusion.webp",
-            "srcset": "assets/products/midnight-illusion-600.webp 600w, assets/products/midnight-illusion.webp 1143w",
-            "width": 1143,
-            "height": 2048,
-            "alt": "Midnight Illusion perfume bottle on navy blue fabric with mint and a cinnamon stick.",
-            "accent": "rgba(71, 86, 133, 0.24)",
-            "accentStrong": "#4b6299",
-            "tags": [
-                  "Night Out",
-                  "Pear Freshness",
-                  "Spiced Warmth"
-            ],
-            "notes": [
-                  {
-                        "label": "Top Notes",
-                        "value": "Juicy Pear, Mint, Lavender"
-                  },
-                  {
-                        "label": "Middle Notes",
-                        "value": "Cinnamon, Clary Sage"
-                  },
-                  {
-                        "label": "Base Notes",
-                        "value": "Black Vanilla, Amber, Cedarwood"
-                  }
-            ]
-      },
-      {
-            "id": 9,
-            "number": "09",
-            "name": "Radiant Blossom",
-            "slug": "radiant-blossom",
-            "scentProfile": "White Floral · Citrus · Tuberose",
-            "shortCopy": "Feminin, anggun, dan ceria — a bright floral made for everyday radiance.",
-            "description": "Wangi bunga putih yang cerah dipadu dengan sentuhan jeruk segar. Kesannya feminin, anggun, dan ceria. Nyaman banget dipakai buat menemani aktivitas harianmu di luar ruangan.",
-            "image": "assets/products/radiant-blossom.jpg",
-            "webp": "assets/products/radiant-blossom.webp",
-            "srcset": "assets/products/radiant-blossom-600.webp 600w, assets/products/radiant-blossom.webp 1143w",
-            "width": 1143,
-            "height": 2048,
-            "alt": "Radiant Blossom perfume bottle on cream fabric with a white blossom.",
-            "accent": "rgba(213, 225, 203, 0.26)",
-            "accentStrong": "#93a77d",
-            "tags": [
-                  "Outdoor Daily Wear",
-                  "White Floral Glow",
-                  "Fresh Citrus"
-            ],
-            "notes": [
-                  {
-                        "label": "Top Notes",
-                        "value": "Bergamot, Orange Blossom"
-                  },
-                  {
-                        "label": "Middle Notes",
-                        "value": "Tuberose, Indian Jasmine"
-                  },
-                  {
-                        "label": "Base Notes",
-                        "value": "White Musk, Vanilla, Cedar"
-                  }
-            ]
-      }
-];
+      {"id":1,"number":"01","name":"Artic Wave","slug":"artic-wave","scentProfile":"Cold · Fresh · Minty · Masculine","shortCopy":"A crisp, cool presence with a clean minty character.","description":"Cool mint and fresh green apple create an energizing profile with a clean, masculine feel. It is refreshing, sharp, and easy to wear throughout the day.","image":"assets/products/artic-wave.jpg","webp":"assets/products/artic-wave.webp","srcset":"assets/products/artic-wave-600.webp 600w, assets/products/artic-wave.webp 1143w","width":1143,"height":2048,"alt":"Artic Wave perfume bottle on blue fabric with mint leaves and water droplets.","accent":"rgba(164, 193, 196, 0.22)","accentStrong":"#5d8d90","tags":["Fresh Daily Wear","Cooling Impression","Minty Character"],"notes":[{"label":"Profile","value":"Mint · Green Apple · Ice"},{"label":"Best For","value":"Daytime / Active"},{"label":"Mood","value":"Clean, cool, confident"}]},
+      {"id":2,"number":"02","name":"Golden Eclipse","slug":"golden-eclipse","scentProfile":"Warm · Woody · Smoky · Luxurious","shortCopy":"Warm sandalwood wrapped in shadow and smoke.","description":"A darker, richer scent character built around warm woods, cardamom, and a smoky luxurious mood. It feels composed, elegant, and quietly intense.","image":"assets/products/golden-eclipse.jpg","webp":"assets/products/golden-eclipse.webp","srcset":"assets/products/golden-eclipse-600.webp 600w, assets/products/golden-eclipse.webp 1143w","width":1143,"height":2048,"alt":"Golden Eclipse perfume bottle on dark brown fabric beside wood and cardamom.","accent":"rgba(164, 135, 85, 0.22)","accentStrong":"#a48755","tags":["Evening Wear","Woody Depth","Smoky Warmth"],"notes":[{"label":"Profile","value":"Woody · Smoky · Amber"},{"label":"Best For","value":"Night / Formal"},{"label":"Mood","value":"Refined, deep, magnetic"}]},
+      {"id":3,"number":"03","name":"Tropical Blaze","slug":"tropical-blaze","scentProfile":"Exotic · Fresh · Warm · Unique","shortCopy":"A bright tropical character grounded by warm wood.","description":"Sunlit mango brightness meets citrus freshness and soft floral warmth. Tropical Blaze feels playful, vibrant, and lively without losing its smooth finish.","image":"assets/products/tropical-blaze.jpg","webp":"assets/products/tropical-blaze.webp","srcset":"assets/products/tropical-blaze-600.webp 600w, assets/products/tropical-blaze.webp 1143w","width":1143,"height":2048,"alt":"Tropical Blaze perfume bottle on orange fabric with a lime half and pink peppercorns.","accent":"rgba(224, 177, 53, 0.22)","accentStrong":"#ca9d28","tags":["Tropical Mood","Citrus Lift","Warm Finish"],"notes":[{"label":"Profile","value":"Mango · Citrus · Floral"},{"label":"Best For","value":"Day / Vacation"},{"label":"Mood","value":"Bright, fun, uplifting"}]},
+      {"id":4,"number":"04","name":"Spring Petals","slug":"spring-petals","scentProfile":"Feminine · Fresh · Sweet · Floral","shortCopy":"Soft petals and sweet berries in an airy floral expression.","description":"A delicate floral impression softened by juicy berries and a light romantic sweetness. Spring Petals feels cheerful, soft, and beautifully feminine.","image":"assets/products/spring-petals.jpg","webp":"assets/products/spring-petals.webp","srcset":"assets/products/spring-petals-600.webp 600w, assets/products/spring-petals.webp 1143w","width":1143,"height":2048,"alt":"Spring Petals perfume bottle on blush pink fabric with a strawberry and a violet flower.","accent":"rgba(220, 161, 194, 0.24)","accentStrong":"#bf7eb0","tags":["Floral Sweetness","Soft Feminine","Berry Touch"],"notes":[{"label":"Profile","value":"Floral · Berry · Soft Sweet"},{"label":"Best For","value":"Casual / Brunch"},{"label":"Mood","value":"Tender, airy, charming"}]},
+      {"id":5,"number":"05","name":"Golden Charm","slug":"golden-charm","scentProfile":"Sweet · Masculine · Warm · Comforting","shortCopy":"Warm honey and hazelnut with a confident masculine character.","description":"Golden Charm blends nutty warmth and honeyed comfort with woody depth. It feels cozy, attractive, and easy to remember.","image":"assets/products/golden-charm.jpg","webp":"assets/products/golden-charm.webp","srcset":"assets/products/golden-charm-600.webp 600w, assets/products/golden-charm.webp 1143w","width":1143,"height":2048,"alt":"Golden Charm perfume bottle on golden fabric with a hazelnut and a dried leaf.","accent":"rgba(165, 114, 55, 0.23)","accentStrong":"#9f6436","tags":["Warm Comfort","Nutty Sweetness","Masculine Softness"],"notes":[{"label":"Profile","value":"Hazelnut · Honey · Warm Wood"},{"label":"Best For","value":"Daily / Cozy"},{"label":"Mood","value":"Warm, comforting, charming"}]},
+      {"id":6,"number":"06","name":"Rouge Vanilla","slug":"rouge-vanilla","scentProfile":"Sweet · Warm · Elegant · Fruity","shortCopy":"Warm vanilla softened by a dark fruity elegance.","description":"Rouge Vanilla layers soft pear, red berries, and vanilla into a smooth fruity warmth. The result feels elegant, sweet, and softly sensual.","image":"assets/products/rouge-vanilla.jpg","webp":"assets/products/rouge-vanilla.webp","srcset":"assets/products/rouge-vanilla-600.webp 600w, assets/products/rouge-vanilla.webp 1143w","width":1143,"height":2048,"alt":"Rouge Vanilla perfume bottle on burgundy fabric with a vanilla pod and a raspberry.","accent":"rgba(171, 111, 102, 0.24)","accentStrong":"#af6a63","tags":["Vanilla Base","Fruity Warmth","Elegant Sweetness"],"notes":[{"label":"Profile","value":"Pear · Vanilla · Red Fruits"},{"label":"Best For","value":"Day to Night"},{"label":"Mood","value":"Elegant, warm, inviting"}]},
+      {"id":7,"number":"07","name":"Timeless V","slug":"timeless-v","scentProfile":"Classic · Expensive · Legendary · Powdery","shortCopy":"A powdery classic with the presence of something timeless.","description":"A refined floral-citrus composition with an airy, powdery refinement. Timeless V feels polished, graceful, and unmistakably classic.","image":"assets/products/timeless-v.jpg","webp":"assets/products/timeless-v.webp","srcset":"assets/products/timeless-v-600.webp 600w, assets/products/timeless-v.webp 1143w","width":1143,"height":2048,"alt":"Timeless V perfume bottle on ivory fabric with a small white flower.","accent":"rgba(212, 201, 194, 0.22)","accentStrong":"#b9a791","tags":["Classic Signature","Powdery Clean","Soft Luxury"],"notes":[{"label":"Profile","value":"White Floral · Citrus · Powdery"},{"label":"Best For","value":"Daily / Polished"},{"label":"Mood","value":"Timeless, graceful, chic"}]},
+      {"id":8,"number":"08","name":"Midnight Illusion","slug":"midnight-illusion","scentProfile":"Sweet · Fruity Pear · Fresh Spicy","shortCopy":"Asik, santai, dan misterius — perfect for nights out and after-dark moments.","description":"Perpaduan wangi buah pear yang manis segar dengan sentuhan mint dan aroma rempah hangat yang maskulin. Karakter wanginya asik, santai, dan misterius. Pas banget buat dipakai nongkrong atau jalan-jalan malam.","image":"assets/products/midnight-illusion.jpg","webp":"assets/products/midnight-illusion.webp","srcset":"assets/products/midnight-illusion-600.webp 600w, assets/products/midnight-illusion.webp 1143w","width":1143,"height":2048,"alt":"Midnight Illusion perfume bottle on navy blue fabric with mint and a cinnamon stick.","accent":"rgba(71, 86, 133, 0.24)","accentStrong":"#4b6299","tags":["Night Out","Pear Freshness","Spiced Warmth"],"notes":[{"label":"Top Notes","value":"Juicy Pear, Mint, Lavender"},{"label":"Middle Notes","value":"Cinnamon, Clary Sage"},{"label":"Base Notes","value":"Black Vanilla, Amber, Cedarwood"}]},
+      {"id":9,"number":"09","name":"Radiant Blossom","slug":"radiant-blossom","scentProfile":"White Floral · Citrus · Tuberose","shortCopy":"Feminin, anggun, dan ceria — a bright floral made for everyday radiance.","description":"Wangi bunga putih yang cerah dipadu dengan sentuhan jeruk segar. Kesannya feminin, anggun, dan ceria. Nyaman banget dipakai buat menemani aktivitas harianmu di luar ruangan.","image":"assets/products/radiant-blossom.jpg","webp":"assets/products/radiant-blossom.webp","srcset":"assets/products/radiant-blossom-600.webp 600w, assets/products/radiant-blossom.webp 1143w","width":1143,"height":2048,"alt":"Radiant Blossom perfume bottle on cream fabric with a white blossom.","accent":"rgba(213, 225, 203, 0.26)","accentStrong":"#93a77d","tags":["Outdoor Daily Wear","White Floral Glow","Fresh Citrus"],"notes":[{"label":"Top Notes","value":"Bergamot, Orange Blossom"},{"label":"Middle Notes","value":"Tuberose, Indian Jasmine"},{"label":"Base Notes","value":"White Musk, Vanilla, Cedar"}]}
+    ];
     const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
     const DESKTOP_PREVIEW = window.matchMedia('(min-width: 1081px)');
-    const PREVIEW_SIZES = '(min-width: 1350px) 510px, calc(46vw - 93px)';
+    const PREVIEW_SIZES = '320px';
     const CARD_SIZES = '(max-width: 720px) calc(100vw - 56px), 420px';
     const activeAnimations = new Set();
 
@@ -661,8 +426,10 @@
       return `${WHATSAPP_API}?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(message)}`;
     }
     function pictureMarkup(product, {preview = false, lazy = true} = {}) {
+      const srcset = preview ? `${escapeHTML(product.webp)} 1143w` : escapeHTML(product.srcset);
+      const sizes = preview ? PREVIEW_SIZES : CARD_SIZES;
       return `<picture ${preview ? 'class="preview-layer"' : ''} data-product-id="${product.id}">
-        <source type="image/webp" srcset="${escapeHTML(product.srcset)}" sizes="${preview ? PREVIEW_SIZES : CARD_SIZES}">
+        <source type="image/webp" srcset="${srcset}" sizes="${sizes}">
         <img ${preview ? 'class="preview-image"' : ''} src="${escapeHTML(product.image)}"
           alt="${escapeHTML(product.alt)}" width="${product.width}" height="${product.height}"
           loading="${lazy ? 'lazy' : 'eager'}" decoding="async">
@@ -835,6 +602,40 @@
       finishPreviewTransition();
       if (DESKTOP_PREVIEW.matches) void renderPreview(FRAGRANCES.find(item => item.id === activeId));
     });
+
+    // Measure captions instead of hiding overflow or shrinking all text to fit.
+    const siteHeader = document.querySelector('.site-header');
+    const previewPanel = document.querySelector('.preview-panel');
+    const previewMeta = document.querySelector('.preview-meta');
+    let fitFrame = 0;
+    function fitDesktopPreview() {
+      fitFrame = 0;
+      const headerHeight = Math.ceil(siteHeader.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+      if (!DESKTOP_PREVIEW.matches) return;
+      const style = getComputedStyle(previewPanel);
+      const chrome = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
+        + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+      const available = window.innerHeight - headerHeight - 28 - chrome - previewMeta.offsetHeight;
+      // Keep ordinary reading/scrolling available for extreme zoom or tiny windows.
+      const height = Math.max(120, Math.min(440, window.innerHeight * .48, Math.floor(available)));
+      previewPanel.style.setProperty('--preview-photo-height', `${height}px`);
+      previewPanel.style.position = available < 120 ? 'relative' : '';
+      previewPanel.style.top = available < 120 ? '0px' : '';
+    }
+    function queuePreviewFit() {
+      if (!fitFrame) fitFrame = requestAnimationFrame(fitDesktopPreview);
+    }
+    if ('ResizeObserver' in window) {
+      const fitObserver = new ResizeObserver(queuePreviewFit);
+      fitObserver.observe(siteHeader);
+      fitObserver.observe(previewMeta);
+    }
+    window.addEventListener('resize',queuePreviewFit,{passive:true});
+    DESKTOP_PREVIEW.addEventListener('change',queuePreviewFit);
+    document.fonts?.ready.then(queuePreviewFit);
+    queuePreviewFit();
+
     cards[0].classList.add('is-active');
     renderMetadata(FRAGRANCES[0]);
 
